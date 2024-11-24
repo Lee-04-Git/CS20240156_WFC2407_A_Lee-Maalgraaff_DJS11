@@ -1,0 +1,34 @@
+/* Container for the entire podcast display */
+.podcast-display-container {
+    margin-bottom: 1.5rem;
+}
+
+/* Podcast Section Title */
+.podcast-section-title {
+    margin: 1.5rem 0;
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #f1f1f1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Podcast List Layout */
+.podcast-list {
+    display: flex;
+    overflow-x: auto;
+    gap: 1.5rem;
+    padding-bottom: 1rem;
+    scroll-snap-type: x mandatory;
+}
+
+/* Individual Podcast Card Styles */
+.podcast-card {
+    min-width: 240px;
+    padding: 1.5rem;
+    background: #2c2c2c;
+    border: 1px solid #444;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 3px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    scroll-snap-align: start;
+}
