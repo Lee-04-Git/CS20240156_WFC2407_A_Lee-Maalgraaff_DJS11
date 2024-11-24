@@ -29,29 +29,29 @@ const DisplayPodcastDetails = () => {
 
   return (
     <>
-      <div>
-        <img src={podcastDataDetails.image} alt={podcastDataDetails.title} />
-        <div>
-          <p>Podcast</p>
-          <h2>{podcastDataDetails.title}</h2>
-          <h4>{podcastDataDetails.description}</h4>
-          <p>
+      <div className="podcast-header">
+        <img className="podcast-image" src={podcastDataDetails.image} alt={podcastDataDetails.title} />
+        <div className="podcast-details">
+          <p className="podcast-label">Podcast</p>
+          <h2 className="podcast-title">{podcastDataDetails.title}</h2>
+          <h4 className="podcast-description">{podcastDataDetails.description}</h4>
+          <p className="podcast-meta">
             <b>Platform</b> - <b>{podcastDataDetails.seasons.length} seasons</b>
           </p>
         </div>
       </div>
   
-      <div>
+      <div className="podcast-grid-header">
         <p>
-          <b>#</b> Title
+          <b className="grid-index">#</b> Title
         </p>
         <p>Season</p>
-        <p>Episodes</p>
+        <p className="grid-date">Episodes</p>
       </div>
       <hr />
   
       {/* Season Dropdown */}
-      <div>
+      <div className="season-dropdown">
         <label htmlFor="season-select">Select Season:</label>
         <select
           id="season-select"
@@ -69,14 +69,14 @@ const DisplayPodcastDetails = () => {
       {/* Render selected season's episodes */}
       <div key={selectedSeasonIndex}>
         <h3>{podcastDataDetails.seasons[selectedSeasonIndex].title}</h3>
-        <div>
+        <div className="episode-list">
           {podcastDataDetails.seasons[selectedSeasonIndex].episodes.map((episode, episodeIndex) => (
             <div key={episodeIndex}>
-              <p>
-                <b>{episodeIndex + 1}</b>
+              <p className="episode-title">
+                <b className="episode-index">{episodeIndex + 1}</b>
                 {episode.title}
               </p>
-              <p>File: {episode.file}</p>
+              <p className="episode-file">File: {episode.file}</p>
             </div>
           ))}
         </div>
@@ -84,3 +84,5 @@ const DisplayPodcastDetails = () => {
     </>
   );  
 }
+
+export default DisplayPodcastDetails;
