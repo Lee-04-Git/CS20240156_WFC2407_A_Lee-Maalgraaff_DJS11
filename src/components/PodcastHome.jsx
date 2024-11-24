@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import "./PodcastHome.css";
 
 const DisplayPodcastData = () => {
     const [podcastsData, setPodcastsData] = useState([]);
