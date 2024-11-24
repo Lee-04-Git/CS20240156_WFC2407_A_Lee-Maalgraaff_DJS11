@@ -19,4 +19,12 @@ const DisplayPodcastDetails = () => {
     fetchPodcastDataDetails();
   }, []);
 
+   if (!podcastDataDetails) {
+    return <div>Loading...</div>;
+  }
+
+  const handleSeasonChange = (event) => {
+    setSelectedSeasonIndex(Number(event.target.value));
+  };
+
 }
