@@ -34,17 +34,18 @@ const DisplayPodcastData = () => {
     return (
         <div>
           {sections.map((section, index) => (
-            <div key={index}>
-              <h1>Recommended Podcasts {index + 1}</h1>
-              <div>
+            <div key={index} className="podcast-display-container">
+              <h1 className="podcast-section-title">Recommended Podcasts {index + 1}</h1>
+              <div className="podcast-list">
                 {section.map((podcast) => (
-                  <div key={podcast.id}>
+                  <div key={podcast.id} className="podcast-card">
                     <img
+                      className="podcast-thumbnail"
                       src={podcast.image}
                       alt={`Podcast ${podcast.id}`}
                     />
-                    <div>
-                      <h3>{podcast.title}</h3>
+                    <div className="podcast-info">
+                      <h3 className="podcast-title">{podcast.title}</h3>
                     </div>
                   </div>
                 ))}
@@ -55,3 +56,5 @@ const DisplayPodcastData = () => {
       );      
 
 }
+
+export default DisplayPodcastData;
