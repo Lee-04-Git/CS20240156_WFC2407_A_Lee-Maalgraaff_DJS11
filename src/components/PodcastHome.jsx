@@ -22,5 +22,13 @@ const DisplayPodcastData = () => {
     fetchPodcasts();
   }, []);
 
+    
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>{error}</div>;
+  
+    const sections = Array.from({ length: 6 }, (_, index) =>
+      podcastsData.slice(index * 9, index * 9 + 9)
+    );
+
 
 }
