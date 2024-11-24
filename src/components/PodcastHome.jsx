@@ -11,6 +11,7 @@ const DisplayPodcastData = () => {
         const response = await fetch("https://podcast-api.netlify.app");
         const data = await response.json();
 
+        console.log("Fetched data:", data);
       } catch (err) {
         setError("Failed to fetch data");
         console.error(err);
@@ -30,5 +31,27 @@ const DisplayPodcastData = () => {
       podcastsData.slice(index * 9, index * 9 + 9)
     );
 
+    return (
+        <div>
+          {sections.map((section, index) => (
+            <div key={index}>
+              <h1>Recommended Podcasts {index + 1}</h1>
+              <div>
+                {section.map((podcast) => (
+                  <div key={podcast.id}>
+                    <img
+                      src={podcast.image}
+                      alt={`Podcast ${podcast.id}`}
+                    />
+                    <div>
+                      <h3>{podcast.title}</h3>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      );      
 
 }
