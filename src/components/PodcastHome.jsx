@@ -12,6 +12,8 @@ const DisplayPodcastData = () => {
         const data = await response.json();
 
         console.log("Fetched data:", data);
+        const sortedData = data.sort((a, b) => a.title.localeCompare(b.title));
+        setPodcastsData(sortedData);
       } catch (err) {
         setError("Failed to fetch data");
         console.error(err);
