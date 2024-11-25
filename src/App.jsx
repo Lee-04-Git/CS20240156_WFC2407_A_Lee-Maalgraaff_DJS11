@@ -1,12 +1,11 @@
-import { useState } from 'react'
 import './App.css'
-import DisplayPodcastData from './components/PodcastHome'
+import DisplayPodcast from './components/DisplayPodcast';
 
 function App() {
 
   return (
     <div>
-      <DisplayPodcastData />
+      <DisplayPodcast />
     </div>
   )
 }
