@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import "./PodcastDetails.css";
 
 const DisplayPodcastDetails = () => {
+
+    const { id } = useParams();
+    const navigateTo = useNavigate();
+
     const [podcastDataDetails, setPodcastDataDetails] = useState(null);
     const [selectedSeasonIndex, setSelectedSeasonIndex] = useState(0);
 
@@ -8,7 +14,7 @@ const DisplayPodcastDetails = () => {
     useEffect(() => {
     const fetchPodcastDataDetails = async () => {
       try {
-        const response = await fetch("https://podcast-api.netlify.app/podcasts");
+        const response = await fetch(`https://podcast-api.netlify.app/id/${id}`);
         const data = await response.json();
         setPodcastDataDetails(data);
       } catch (error) {
@@ -29,6 +35,16 @@ const DisplayPodcastDetails = () => {
 
   return (
     <>
+
+      {/* Back Button */}
+      <button
+        className="back-button"
+        onClick={() => navigateTo("/")} // Navigate back to home page (DisplayHome)
+      >
+        <img src="src\assets\back_arrow_icon.png" alt="Back" className="back-icon" />
+        Back
+      </button>
+
       <div className="podcast-header">
         <img className="podcast-image" src={podcastDataDetails.image} alt={podcastDataDetails.title} />
         <div className="podcast-details">
