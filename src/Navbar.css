@@ -1,0 +1,34 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+  }
+  
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #F4F3FB;
+    color: #1C1537;
+    overflow: hidden;
+  }
+  
+
+/* Navbar */
+.navbar {
+    width: 100%;
+    background-color: #ffffff;
+    padding: 0.7rem 0;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+  }
+  
+.navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    margin: 0 auto;
+  }
+  
