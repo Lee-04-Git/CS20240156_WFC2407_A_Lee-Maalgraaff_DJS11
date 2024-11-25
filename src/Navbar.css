@@ -31,4 +31,36 @@ body {
     width: 80%;
     margin: 0 auto;
   }
+
+
+/* Search Bar */
+.navbar-search-bar {
+    display: flex;
+    align-items: center;
+    background-color: rgba(237, 242, 247, 0.9);
+    border-radius: 2rem;
+    padding: 0.5rem 1rem;
+    width: 40%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+.search-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+.search-input {
+    background: transparent;
+    border: none;
+    margin-left: 0.8rem;
+    font-size: 1rem;
+    width: 100%;
+    color: hsl(252, 30%, 17%);
+  }
+  
+  /* Add focus effect for input */
+.search-input:focus {
+    outline: none;
+    color: hsl(252, 30%, 17%);
+  }
   
