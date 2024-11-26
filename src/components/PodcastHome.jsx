@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import "./PodcastHome.css";
+import Navbar from "./Navbar";
 
 const PodcastItem = ({ onClick, title, id, image }) => (
   <div className="podcast-card" onClick={onClick}>
@@ -18,6 +19,7 @@ const DisplayPodcastData = () => {
     const [podcastsData, setPodcastsData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [search, setSearch] = useState('')
 
     useEffect(() => {
     const fetchPodcasts = async () => {
@@ -45,7 +47,7 @@ const DisplayPodcastData = () => {
       navigateTo(`/podcast/${podcastId}`);
     };
 
-    
+    // dummy loader
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
   
@@ -53,27 +55,40 @@ const DisplayPodcastData = () => {
       podcastsData.slice(index * 9, index * 9 + 9)
     );
 
+    const filteredPodcastData = podcastsData.filter(podcastData =>
+      podcastData.title.toLowerCase().includes(search.toLowerCase())
+    );    
+
     return (
-        <div>
-          {sections.map((section, index) => (
+      <div>
+        {/* Pass search props to the Navbar */}
+        <Navbar search={search} setSearch={setSearch} />
+    
+        {/* Map through filtered data */}
+        {filteredPodcastData.length > 0 ? (
+          sections.map((section, index) => (
             <div key={index} className="podcast-display-container">
               <h1 className="podcast-section-title">Recommended Podcasts {index + 1}</h1>
               <div className="podcast-list">
-                {section.map((podcast) => (
-                  <PodcastItem
-                    key={podcast.id}
-                    onClick={() => routeToPodcast(podcast.id)}
-                    title={podcast.title}
-                    id={podcast.id}
-                    image={podcast.image}
-                  />
-                ))}
+                {section
+                  .filter((podcast) => filteredPodcastData.includes(podcast))
+                  .map((podcast) => (
+                    <PodcastItem
+                      key={podcast.id}
+                      onClick={() => routeToPodcast(podcast.id)}
+                      title={podcast.title}
+                      id={podcast.id}
+                      image={podcast.image}
+                    />
+                  ))}
               </div>
             </div>
-          ))}
-        </div>
-      );      
-
-}
+          ))
+        ) : (
+          <p>No podcasts found.</p>
+        )}
+      </div>
+    );
+  }
 
 export default DisplayPodcastData;
