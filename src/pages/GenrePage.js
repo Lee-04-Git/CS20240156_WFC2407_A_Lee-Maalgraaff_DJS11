@@ -11,7 +11,7 @@ useEffect(() => {
       try {
         const response = await fetch('https://podcast-api.netlify.app/genres');
         const data = await response.json();
-        setGenres(data);
+        setPodcastGenre(data);
       } catch (error) {
         console.error('Error fetching genres:', error);
       }
@@ -19,5 +19,26 @@ useEffect(() => {
 
     fetchGenres();
   }, []);
+
+   const fetchGenreDetails = async (genreId) => {
+    try {
+      const response = await fetch(`https://podcast-api.netlify.app/genre/${genreId}`);
+      const data = await response.json();
+      setPodcastGenreDetails(data);
+    } catch (error) {
+      console.error('Error fetching genre data:', error);
+    }
+  };
+
+  const handleGenreChange = (e) => {
+    const selectedId = e.target.value;
+    setSelectedGenre(selectedId);
+
+    if (selectedId) {
+      fetchGenreDetails(selectedId);
+    } else {
+      setPodcastGenreDetails(null);
+    }
+  };
 
   export default GenrePage
