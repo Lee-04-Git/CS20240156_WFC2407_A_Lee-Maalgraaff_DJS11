@@ -57,8 +57,8 @@ const DisplayPodcastData = () => {
 
     const filteredPodcastData = podcastsData.filter(podcastData =>
       podcastData.title.toLowerCase().includes(search.toLowerCase())
-    );    
-
+    );
+    
     return (
       <div>
         {/* Pass search props to the Navbar */}
@@ -68,7 +68,6 @@ const DisplayPodcastData = () => {
         {filteredPodcastData.length > 0 ? (
           sections.map((section, index) => (
             <div key={index} className="podcast-display-container">
-              <h1 className="podcast-section-title">Recommended Podcasts {index + 1}</h1>
               <div className="podcast-list">
                 {section
                   .filter((podcast) => filteredPodcastData.includes(podcast))
