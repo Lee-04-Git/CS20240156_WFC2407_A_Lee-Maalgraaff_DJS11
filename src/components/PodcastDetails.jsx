@@ -46,7 +46,7 @@ const DisplayPodcastDetails = () => {
       </button>
 
       <div className="podcast-header">
-        <img className="podcast-image" src={podcastDataDetails.image} alt={podcastDataDetails.title} />
+        {/* <img className="podcast-image" src={podcastDataDetails.image} alt={podcastDataDetails.title} /> */}
         <div className="podcast-details">
           <p className="podcast-label">Podcast</p>
           <h2 className="podcast-title">{podcastDataDetails.title}</h2>
