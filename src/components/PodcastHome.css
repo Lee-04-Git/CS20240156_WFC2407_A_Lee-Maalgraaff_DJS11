@@ -21,17 +21,6 @@
     scroll-snap-type: x mandatory;
 }
 
-/* Individual Podcast Card Styles */
-.podcast-card {
-    min-width: 240px;
-    padding: 1.5rem;
-    background: #dfd8d8;
-    border: 1px solid #444;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 3px 6px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-    scroll-snap-align: start;
-}
 
 /* Hover Effect for Podcast Card */
 .podcast-card:hover {
