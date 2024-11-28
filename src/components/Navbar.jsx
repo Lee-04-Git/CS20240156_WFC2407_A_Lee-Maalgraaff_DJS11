@@ -1,8 +1,10 @@
 import React from "react";
 import "./Navbar.css";
+import { useNavigate } from "react-router-dom";
 import searchIcon from "../assets/search.png";
 
 const Navbar = ({search, setSearch}) => {
+  const navigate = useNavigate();
   return (
     <div>
       <nav className="navbar">
@@ -17,6 +19,13 @@ const Navbar = ({search, setSearch}) => {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
+           {/* Favourites Button */}
+           <button
+            className="favourites-button"
+            onClick={() => navigate("/favourites")}
+          >
+            Favourites
+          </button>
         </div>
       </nav>
     </div>
