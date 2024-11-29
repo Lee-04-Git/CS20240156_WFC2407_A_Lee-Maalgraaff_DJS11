@@ -1,0 +1,60 @@
+/* Genre dropdown container styling */
+.genre-dropdown {
+    color: #fff;
+    background-color: #a8d0e6; /* Light blue background */
+    border: 1px solid #81c7e1; /* Lighter blue border */
+    border-radius: 0.375rem; /* Rounded corners */
+    padding: 0.5rem 1rem;
+    max-width: 16rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+/* Genre dropdown label styling */
+.genre-dropdown label {
+    font-size: 1rem;
+    color: #fff; /* Dark text color */
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+/* Genre dropdown select styling */
+.genre-dropdown select {
+    background-color: rgba(237, 242, 247, 0.9); /* White background for the select input */
+    border: 1px solid #81c7e1; /* Lighter border color */
+    border-radius: 0.375rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: bolder;
+    color: #fff; /* Dark text color */
+    width: 100%; /* Make it fill the container width */
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+/* Genre dropdown select hover effect */
+.genre-dropdown select:hover {
+    border-color: #3182ce; /* Darker blue border on hover */
+}
+
+/* Genre dropdown select focus effect */
+.genre-dropdown select:focus {
+    outline: none;
+    border-color: #3182ce; /* Dark blue border on focus */
+    box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.6); /* Blue focus ring */
+}
+
+/* Styling for options inside the select element */
+.genre-dropdown select option {
+    background-color: #3182ce; /* Light blue background for options */
+    color: white; /* White text color */
+    font-weight: bold; /* Bold text */
+    padding: 0.5rem; /* Padding to make the options more clickable */
+}
+
+/* Hover effect for option elements */
+.genre-dropdown select option:hover {
+    background-color: #2b6cb0; /* Darker blue on hover */
+}
