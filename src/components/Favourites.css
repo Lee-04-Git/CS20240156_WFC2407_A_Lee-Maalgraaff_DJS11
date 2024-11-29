@@ -1,0 +1,57 @@
+/* General Container Styling */
+.favourites-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1rem;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Back Button Styling */
+  .back-to-home-button {
+    padding: 10px 20px;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .back-to-home-button:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Favourite Item Styling */
+  .favourite-item {
+    background-color: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .favourite-item h3 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .favourite-item p {
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+  
+  /* Audio Player Styling */
+  audio {
+    width: 100%;
+    margin-top: 1rem;
+    border-radius: 4px;
+  }
+  
+  /* No episode message */
+  p {
+    font-size: 1.2rem;
+    color: #555;
+    text-align: center;
+  }  
