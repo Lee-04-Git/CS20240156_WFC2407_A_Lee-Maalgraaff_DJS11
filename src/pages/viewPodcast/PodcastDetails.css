@@ -1,6 +1,85 @@
+/* Main Details Container */
 .details-container {
-  max-height: 100vh;
-  min-height: 100vh;
-  overflow-y: scroll;
-  padding-bottom: 100px;
-}
+    max-height: 100vh; min-height: 100vh; overflow-y: scroll;
+    padding: 20px 20px 100px; background-color: #f9f9f9;
+    border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 1000px; margin: 20px auto;
+  }
+  
+  /* Podcast Image */
+  .podcast-image {
+    width: 100%; height: auto; border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); margin-bottom: 20px;
+    object-fit: cover;
+  }
+  
+  /* Back Button */
+  .back-button {
+    display: flex; align-items: center; padding: 10px 15px;
+    background-color: #007bff; color: white; font-size: 1rem; font-weight: 600;
+    border: none; border-radius: 5px; cursor: pointer; margin-bottom: 20px;
+    transition: background-color 0.3s;
+  }
+  .back-button:hover { background-color: #0056b3; }
+  .back-icon { width: 20px; height: 20px; margin-right: 10px; }
+  
+  /* Podcast Header */
+  .podcast-header { display: flex; flex-direction: column; margin-bottom: 20px; }
+  .podcast-details { padding: 15px; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); }
+  .podcast-label { font-size: 0.9rem; font-weight: bold; color: #555; margin-bottom: 5px; }
+  .podcast-title { font-size: 2rem; font-weight: bold; color: #333; margin-bottom: 10px; }
+  .podcast-description { font-size: 1rem; color: #666; line-height: 1.5; margin-bottom: 15px; }
+  .podcast-meta { font-size: 1rem; color: #555; font-weight: bold; }
+  
+  /* Podcast Grid Header */
+  .podcast-grid-header {
+    display: grid; grid-template-columns: 40px 1fr 100px; gap: 15px; font-weight: bold;
+    padding: 10px 0; background-color: #f1f1f1; border-top: 2px solid #ddd; border-bottom: 2px solid #ddd; margin-top: 20px;
+  }
+  .grid-index { color: #007bff; }
+  .grid-date { text-align: right; color: #333; }
+  
+  /* Horizontal Line */
+  hr { border: 1px solid #ddd; margin: 20px 0; }
+  
+  /* Season Dropdown */
+  .season-dropdown {
+    margin-bottom: 20px; display: flex; flex-direction: column; align-items: flex-start; font-size: 1rem;
+  }
+  .season-dropdown label { font-weight: bold; margin-bottom: 8px; }
+  .season-dropdown select {
+    padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 1rem; cursor: pointer; width: 200px;
+  }
+  
+  /* Episode List Styling */
+  .episode-list { display: flex; flex-direction: column; gap: 15px; }
+  .episode-list .episode {
+    background: #f8f8f8; padding: 15px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .episode-list .episode:hover {
+    transform: translateY(-5px); box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  }
+  .episode-title { font-size: 1.2rem; margin-bottom: 10px; font-weight: bold; color: #333; display: flex; align-items: center; }
+  .episode-index { margin-right: 8px; font-size: 1.5rem; color: #007bff; }
+  .episode-file { display: none; } /* Hides the audio file text */
+  
+  .audio-footer {
+    position: fixed;
+    width: 100;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #333;  /* Dark background */
+    color: white;            /* White text */
+    padding: 10px;           /* Padding around the content */
+    display: flex;
+    justify-content: center; /* Center the audio player */
+    margin-top: 15px;
+  }
+  
+  #audio-player {
+    width: 100%;
+    max-width: 800px;  /* You can adjust the max-width as needed */
+  }
+  
