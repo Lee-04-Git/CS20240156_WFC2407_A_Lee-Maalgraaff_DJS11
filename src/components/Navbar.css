@@ -1,37 +1,58 @@
+/* Reset and Body */
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    outline: none;
-    border: none;
-  }
-  
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+}
+
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #F4F3FB;
-    color: #1C1537;
-    overflow: hidden;
-  }
-  
+  font-family: 'Poppins', sans-serif;
+  background-color: #F4F3FB;
+  color: #1C1537;
+}
 
 /* Navbar */
 .navbar {
-    width: 90%;
-    background-color: #ffffff;
-    padding: 0.7rem 0;
-    position: fixed;
-    top: 0;
-    z-index: 1000;
-  }
-  
-.navbar-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 80%;
-    margin: 0 auto;
-  }
+  width: 100%; /* Stretch across the entire screen */
+  background-color: #ffffff;
+  padding: 1rem 2rem; /* Add some padding for better spacing */
+  position: sticky; /* Make it stick to the top */
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add a slight shadow for a sleek look */
+}
 
+/* Navbar Container */
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Spread items evenly */
+  max-width: 1200px; /* Keep content centered and not too wide */
+  margin: 0 auto; /* Center the navbar */
+}
+
+/* Navbar Buttons */
+.navbar-buttons {
+  display: flex;
+  gap: 1rem; /* Space between buttons */
+}
+
+.navbar-buttons button {
+  padding: 0.5rem 1rem; /* Make buttons larger */
+  background-color: #F4F3FB;
+  border: 1px solid rgba(28, 21, 55, 0.2);
+  border-radius: 2rem; /* Rounded buttons */
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.navbar-buttons button:hover {
+  background-color: rgba(28, 21, 55, 0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
 
 /* Search Bar */
 .navbar-search-bar {
@@ -40,7 +61,7 @@ body {
   background-color: rgba(237, 242, 247, 0.9);
   border-radius: 2rem;
   padding: 0.5rem 1rem;
-  width: 40%;
+  width: 30%; /* Adjust width */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -60,5 +81,5 @@ body {
 
 .search-input:focus {
   outline: none;
-  color: rgba(28, 21, 55, 1)
+  color: rgba(28, 21, 55, 1);
 }
