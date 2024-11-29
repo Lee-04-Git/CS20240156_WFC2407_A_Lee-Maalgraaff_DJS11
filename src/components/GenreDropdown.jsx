@@ -1,4 +1,5 @@
 import React from "react";
+import "./GenreDropdown.css";
 
 const genreMapping = {
   1: "Personal Growth",
