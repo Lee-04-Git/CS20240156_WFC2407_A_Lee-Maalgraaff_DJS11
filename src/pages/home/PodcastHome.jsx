@@ -22,6 +22,7 @@ const DisplayPodcastData = () => {
   const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
   const [sortOrder, setSortOrder] = useState("A-Z");
+  const [sortOrderByUpdated, setSortOrderByUpdated] = useState("newest");
   const [selectedGenre, setSelectedGenre] = useState(null);
 
   useEffect(() => {
@@ -55,6 +56,17 @@ const DisplayPodcastData = () => {
     );
 
     setSortOrder(newSortOrder);
+    setPodcastsData(sortedData);
+  };
+
+  const toggleSortOrderByUpdated = () => {
+    const newSortOrder = sortOrderByUpdated === "newest" ? "oldest" : "newest";
+    const sortedData = [...podcastsData].sort((a, b) =>
+      newSortOrder === "newest" 
+        ? new Date(b.updated) - new Date(a.updated)
+        : new Date(a.updated) - new Date(b.updated)
+    );
+    setSortOrderByUpdated(newSortOrder);
     setPodcastsData(sortedData);
   };
 
@@ -106,10 +118,16 @@ const DisplayPodcastData = () => {
       {/* Pass search props to the Navbar */}
       <Navbar search={search} setSearch={setSearch} />
 
-      {/* Add sort button */}
-      <button className="sort-button" onClick={toggleSortOrder}>
-        Sort {sortOrder === "A-Z" ? "Z-A" : "A-Z"}
-      </button>
+      {/* Add sort buttons container */}
+      <div className="sort-buttons-container">
+        <button className="sort-button" onClick={toggleSortOrder}>
+          Sort {sortOrder === "A-Z" ? "Z-A" : "A-Z"}
+        </button>
+
+        <button className="sort-button" onClick={toggleSortOrderByUpdated}>
+          Sort by Updated {sortOrderByUpdated === "newest" ? "Oldest" : "Newest"}
+        </button>
+      </div>
 
       {/* Add Genre dropdown */}
       <GenreDropDown
