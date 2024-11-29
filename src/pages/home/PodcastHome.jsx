@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./PodcastHome.css";
 import Navbar from "../../components/Navbar";
+import GenreDropDown from "../../components/GenreDropdown";
 
 const PodcastItem = ({ onClick, title, id, image }) => (
   <div className="podcast-card" onClick={onClick}>
@@ -16,10 +17,12 @@ const DisplayPodcastData = () => {
   const navigateTo = useNavigate();
 
   const [podcastsData, setPodcastsData] = useState([]);
+  const [unfilteredPodcastData, setUnfilteredPodcastData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
   const [sortOrder, setSortOrder] = useState("A-Z");
+  const [selectedGenre, setSelectedGenre] = useState(null);
 
   useEffect(() => {
     const fetchPodcasts = async () => {
@@ -28,9 +31,10 @@ const DisplayPodcastData = () => {
         const data = await response.json();
 
         console.log("Fetched data:", data);
-        console.log()
+        console.log();
         const sortedData = data.sort((a, b) => a.title.localeCompare(b.title));
         setPodcastsData(sortedData);
+        setUnfilteredPodcastData(sortedData);
       } catch (err) {
         setError("Failed to fetch data");
         console.error(err);
@@ -60,6 +64,10 @@ const DisplayPodcastData = () => {
     navigateTo(`/podcast/${podcastId}`);
   };
 
+  const filterPodcastsByGenre = (genreId) => {
+    setSelectedGenre(genreId);
+  };
+
   // dummy loader
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -68,27 +76,75 @@ const DisplayPodcastData = () => {
     podcastsData.slice(index * 9, index * 9 + 9)
   );
 
-  const filteredPodcastData = podcastsData.filter((podcastData) =>
-    podcastData.title.toLowerCase().includes(search.toLowerCase())
-  );
+  const filterPodcastData = podcastsData.filter((podcast) => {
+    const matchesSearch = podcast.title
+      ?.toLowerCase()
+      .includes(search.toLowerCase());
+    const matchesGenre = selectedGenre
+      ? podcast.genreIds && podcast.genreIds.includes(selectedGenre)
+      : true;
+    return matchesSearch && matchesGenre;
+  });
+
+  const selectGenre = (genre) => {
+    if (genre) {
+      setSelectedGenre(genre);
+      const filteredPodcastData = unfilteredPodcastData.filter((podcast) => {
+        return podcast.genres.includes(genre);
+      });
+      console.log("filteredPodcastData", filteredPodcastData);
+      setPodcastsData(filteredPodcastData);
+    } else {
+      setSelectedGenre(genre);
+      setPodcastsData(unfilteredPodcastData);
+    }
+    console.log(genre);
+  };
 
   return (
     <div className="home-container">
       {/* Pass search props to the Navbar */}
       <Navbar search={search} setSearch={setSearch} />
 
-       {/* Add sort button */}
-       <button className="sort-button" onClick={toggleSortOrder}>
+      {/* Add sort button */}
+      <button className="sort-button" onClick={toggleSortOrder}>
         Sort {sortOrder === "A-Z" ? "Z-A" : "A-Z"}
       </button>
 
+      {/* Add Genre dropdown */}
+      <GenreDropDown
+        selectedGenre={selectedGenre}
+        onGenreSelect={selectGenre}
+      />
+
       {/* Map through filtered data */}
-      {filteredPodcastData.length > 0 ? (
+      {/* {filterPodcastData.length > 0 ? (
         sections.map((section, index) => (
           <div key={index} className="podcast-display-container">
             <div className="podcast-list">
               {section
-                .filter((podcast) => filteredPodcastData.includes(podcast))
+                .filter((podcast) => filterPodcastData.includes(podcast))
+                .map((podcast) => (
+                  <PodcastItem
+                    key={podcast.id}
+                    onClick={() => routeToPodcast(podcast.id)}
+                    title={podcast.title}
+                    id={podcast.id}
+                    image={podcast.image}
+                  />
+                ))}
+            </div>
+          </div>
+        ))
+      ) : (
+        <p>No podcasts found.</p>
+      )} */}
+      {podcastsData.length > 0 ? (
+        sections.map((section, index) => (
+          <div key={index} className="podcast-display-container">
+            <div className="podcast-list">
+              {section
+                .filter((podcast) => podcastsData.includes(podcast))
                 .map((podcast) => (
                   <PodcastItem
                     key={podcast.id}
