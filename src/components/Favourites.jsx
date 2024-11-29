@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import "./Favourites.css";
 
 const Favourites = ({ episode }) => {
-  const navigate = useNavigate();  // Hook to navigate programmatically
+  const navigate = useNavigate(); // Hook to navigate programmatically
 
   return (
     <div className="favourites-container">
-      {/* Back to Home Button */}
+      {/* Back to Home Button (Only one occurrence here) */}
       <button onClick={() => navigate("/")} className="back-to-home-button">
         Back to Home
       </button>
@@ -29,4 +30,3 @@ const Favourites = ({ episode }) => {
 };
 
 export default Favourites;
-
