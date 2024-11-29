@@ -62,7 +62,7 @@ const DisplayPodcastDetails = () => {
       </button>
 
       <div className="podcast-header">
-        {/* <img className="podcast-image" src={podcastDataDetails.image} alt={podcastDataDetails.title} /> */}
+        <img className="podcast-image" src={podcastDataDetails.image} alt={podcastDataDetails.title} />
         <div className="podcast-details">
           <p className="podcast-label">Podcast</p>
           <h2 className="podcast-title">{podcastDataDetails.title}</h2>
@@ -84,39 +84,51 @@ const DisplayPodcastDetails = () => {
       </div>
       <hr />
 
-      {/* Season Dropdown */}
-      <div className="season-dropdown">
-        <label htmlFor="season-select">Select Season:</label>
-        <select
-          id="season-select"
-          value={selectedSeasonIndex}
-          onChange={handleSeasonChange}
-        >
-          {podcastDataDetails.seasons.map((season, index) => (
-            <option key={index} value={index}>
-              {season.title}
-            </option>
-          ))}
-        </select>
-      </div>
+{/* Season Dropdown */}
+<div className="season-dropdown">
+  <label htmlFor="season-select">Select Season:</label>
+  <select
+    id="season-select"
+    value={selectedSeasonIndex}
+    onChange={handleSeasonChange}
+  >
+    {podcastDataDetails.seasons.map((season, index) => (
+      <option key={index} value={index}>
+        {season.title}
+      </option>
+    ))}
+  </select>
+</div>
 
-      {/* Render selected season's episodes */}
-      <div key={selectedSeasonIndex}>
-        <h3>{podcastDataDetails.seasons[selectedSeasonIndex].title}</h3>
-        <div className="episode-list">
-          {podcastDataDetails.seasons[selectedSeasonIndex].episodes.map(
-            (episode, episodeIndex) => (
-              <div key={episodeIndex} onClick={() => playAudio(episode.file)}>
-                <p className="episode-title">
-                  <b className="episode-index">{episodeIndex + 1}</b>
-                  {episode.title}
-                </p>
-                <p className="episode-file">File: {episode.file}</p>
-              </div>
-            )
-          )}
-        </div>
-      </div>
+{/* Render selected season's episodes */}
+<div key={selectedSeasonIndex}>
+  <h3>{podcastDataDetails.seasons[selectedSeasonIndex].title}</h3>
+  <div className="episode-list">
+    {podcastDataDetails.seasons[selectedSeasonIndex].episodes.map(
+      (episode, episodeIndex) => {
+        // Get the season and episode numbers
+        const seasonNumber = String(selectedSeasonIndex + 1).padStart(2, '0');
+        const episodeNumber = String(episodeIndex + 1).padStart(2, '0');
+
+        return (
+          <div key={episodeIndex} className="episode" onClick={() => playAudio(episode.file)}>
+            <p className="episode-title">
+              <b className="episode-index">S{seasonNumber}E{episodeNumber}</b>
+              {episode.title}
+            </p>
+            <p className="episode-file">File: {episode.file}</p> {/* This will be hidden */}
+            
+            {/* Add Button */}
+            <button 
+              className="add-episode-button" >
+              Add to favourites
+            </button>
+          </div>
+        );
+      }
+    )}
+  </div>
+</div>
 
       <div className="audio-footer">
         <audio ref={audioRef} src={podcastFileUrl} controls>
