@@ -4,18 +4,20 @@ import "./PodcastHome.css";
 import Navbar from "../../components/Navbar";
 import GenreDropDown from "../../components/GenreDropdown";
 
-const PodcastItem = ({ onClick, title, id, image }) => (
+const PodcastItem = ({ onClick, title, id, image, seasons, updated }) => (
   <div className="podcast-card" onClick={onClick}>
     <img className="podcast-thumbnail" src={image} alt={`Podcast ${id}`} />
     <div className="podcast-info">
       <h3 className="podcast-title">{title}</h3>
+      <p className="podcast-meta">
+      {new Date(updated).toLocaleDateString()}
+      </p>
     </div>
   </div>
 );
 
 const DisplayPodcastData = () => {
   const navigateTo = useNavigate();
-
   const [podcastsData, setPodcastsData] = useState([]);
   const [unfilteredPodcastData, setUnfilteredPodcastData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,12 +32,9 @@ const DisplayPodcastData = () => {
       try {
         const response = await fetch("https://podcast-api.netlify.app");
         const data = await response.json();
-
         console.log("Fetched data:", data);
-        console.log();
-        const sortedData = data.sort((a, b) => a.title.localeCompare(b.title));
-        setPodcastsData(sortedData);
-        setUnfilteredPodcastData(sortedData);
+        setPodcastsData(data);
+        setUnfilteredPodcastData(data);
       } catch (err) {
         setError("Failed to fetch data");
         console.error(err);
@@ -54,7 +53,6 @@ const DisplayPodcastData = () => {
         ? a.title.localeCompare(b.title)
         : b.title.localeCompare(a.title)
     );
-
     setSortOrder(newSortOrder);
     setPodcastsData(sortedData);
   };
@@ -62,7 +60,7 @@ const DisplayPodcastData = () => {
   const toggleSortOrderByUpdated = () => {
     const newSortOrder = sortOrderByUpdated === "newest" ? "oldest" : "newest";
     const sortedData = [...podcastsData].sort((a, b) =>
-      newSortOrder === "newest" 
+      newSortOrder === "newest"
         ? new Date(b.updated) - new Date(a.updated)
         : new Date(a.updated) - new Date(b.updated)
     );
@@ -70,23 +68,9 @@ const DisplayPodcastData = () => {
     setPodcastsData(sortedData);
   };
 
-  // Navigate to the selected podcast
   const routeToPodcast = (podcastId) => {
-    console.log("Navigating to podcast:", podcastId);
     navigateTo(`/podcast/${podcastId}`);
   };
-
-  const filterPodcastsByGenre = (genreId) => {
-    setSelectedGenre(genreId);
-  };
-
-  // dummy loader
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
-
-  const sections = Array.from({ length: 6 }, (_, index) =>
-    podcastsData.slice(index * 9, index * 9 + 9)
-  );
 
   const filterPodcastData = podcastsData.filter((podcast) => {
     const matchesSearch = podcast.title
@@ -101,24 +85,31 @@ const DisplayPodcastData = () => {
   const selectGenre = (genre) => {
     if (genre) {
       setSelectedGenre(genre);
-      const filteredPodcastData = unfilteredPodcastData.filter((podcast) => {
-        return podcast.genres.includes(genre);
-      });
-      console.log("filteredPodcastData", filteredPodcastData);
+      const filteredPodcastData = podcastsData.filter((podcast) =>
+        podcast.genres.includes(genre)
+      );
       setPodcastsData(filteredPodcastData);
     } else {
-      setSelectedGenre(genre);
-      setPodcastsData(unfilteredPodcastData);
+      setSelectedGenre(null);
+      setPodcastsData(podcastsData);
     }
-    console.log(genre);
   };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+
+  const sections = Array.from({ length: 6 }, (_, index) =>
+    podcastsData.slice(index * 9, index * 9 + 9)
+  );
 
   return (
     <div className="home-container">
-      {/* Pass search props to the Navbar */}
       <Navbar search={search} setSearch={setSearch} />
+      <GenreDropDown
+        selectedGenre={selectedGenre}
+        onGenreSelect={selectGenre}
+      />
 
-      {/* Add sort buttons container */}
       <div className="sort-buttons-container">
         <button className="sort-button" onClick={toggleSortOrder}>
           Sort {sortOrder === "A-Z" ? "Z-A" : "A-Z"}
@@ -129,49 +120,24 @@ const DisplayPodcastData = () => {
         </button>
       </div>
 
-      {/* Add Genre dropdown */}
-      <GenreDropDown
-        selectedGenre={selectedGenre}
-        onGenreSelect={selectGenre}
-      />
-
-      {/* Map through filtered data */}
-      {/* {filterPodcastData.length > 0 ? (
-        sections.map((section, index) => (
-          <div key={index} className="podcast-display-container">
-            <div className="podcast-list">
-              {section
-                .filter((podcast) => filterPodcastData.includes(podcast))
-                .map((podcast) => (
-                  <PodcastItem
-                    key={podcast.id}
-                    onClick={() => routeToPodcast(podcast.id)}
-                    title={podcast.title}
-                    id={podcast.id}
-                    image={podcast.image}
-                  />
-                ))}
-            </div>
-          </div>
-        ))
-      ) : (
-        <p>No podcasts found.</p>
-      )} */}
       {podcastsData.length > 0 ? (
         sections.map((section, index) => (
           <div key={index} className="podcast-display-container">
             <div className="podcast-list">
-              {section
-                .filter((podcast) => podcastsData.includes(podcast))
-                .map((podcast) => (
+              {section.map((podcast) => {
+                const seasons = podcast.seasons ? podcast.seasons.length : 0;
+                return (
                   <PodcastItem
                     key={podcast.id}
                     onClick={() => routeToPodcast(podcast.id)}
                     title={podcast.title}
                     id={podcast.id}
                     image={podcast.image}
+                    seasons={seasons}
+                    updated={podcast.updated}
                   />
-                ))}
+                );
+              })}
             </div>
           </div>
         ))
