@@ -78,11 +78,6 @@ const DisplayPodcastDetails = () => {
   return (
     <div className="details-container">
       <button className="back-button" onClick={() => navigateTo("/")}>
-        <img
-          src="src/assets/back_arrow_icon.png"
-          alt="Back"
-          className="back-icon"
-        />
         Back
       </button>
 
