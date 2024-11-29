@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, data } from "react-router-dom";
+import AddToFavourites from "../../components/AddToFavourites";
 import "./PodcastDetails.css";
 
 const DisplayPodcastDetails = () => {
@@ -9,8 +10,11 @@ const DisplayPodcastDetails = () => {
   const [podcastFileUrl, setPodcastFileUrl] = useState(null);
   const [podcastDataDetails, setPodcastDataDetails] = useState(null);
   const [selectedSeasonIndex, setSelectedSeasonIndex] = useState(0);
+  const [favourites, setFavourites] = useState(() => {
+    const savedFavourites = localStorage.getItem("favourites");
+    return savedFavourites ? JSON.parse(savedFavourites) : [];
+  });
 
-  // Fetch data when the component mounts
   useEffect(() => {
     const fetchPodcastDataDetails = async () => {
       try {
@@ -18,6 +22,7 @@ const DisplayPodcastDetails = () => {
           `https://podcast-api.netlify.app/id/${id}`
         );
         const data = await response.json();
+        console.log("podcastdetails", data);
         setPodcastDataDetails(data);
       } catch (error) {
         console.error("Error fetching podcast data details:", error);
@@ -25,7 +30,11 @@ const DisplayPodcastDetails = () => {
     };
 
     fetchPodcastDataDetails();
-  }, []);
+  }, [id]);
+
+  useEffect(() => {
+    localStorage.setItem("favourites", JSON.stringify(favourites));
+  }, [favourites]);
 
   if (!podcastDataDetails) {
     return <div>Loading...</div>;
@@ -36,25 +45,41 @@ const DisplayPodcastDetails = () => {
   };
 
   const playAudio = (fileUrl) => {
-    console.log("fileUrl: ", fileUrl);
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
     setPodcastFileUrl(fileUrl);
-    audioRef.current.play();
   };
 
   const pauseAudio = () => {
-    // audioRef.current.pause();
     setPodcastFileUrl();
+  };
+
+  // Add episode to favourites
+  const handleAddToFavourites = (episode) => {
+    const isAlreadyFavourite = favourites.some(
+      (fav) => fav.title === episode.title
+    );
+
+    if (!isAlreadyFavourite) {
+      const updatedFavourites = [...favourites, episode];
+      setFavourites(updatedFavourites);
+      localStorage.setItem("favourites", JSON.stringify(updatedFavourites));
+    }
+    console.log(favourites);
+  };
+
+  const formatUpdatedDate = (updatedDate) => {
+    const date = new Date(updatedDate);
+    return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
   };
 
   return (
     <div className="details-container">
-      {/* Back Button */}
-      <button
-        className="back-button"
-        onClick={() => navigateTo("/")} // Navigate back to home page (DisplayHome)
-      >
+      <button className="back-button" onClick={() => navigateTo("/")}>
         <img
-          src="src\assets\back_arrow_icon.png"
+          src="src/assets/back_arrow_icon.png"
           alt="Back"
           className="back-icon"
         />
@@ -62,7 +87,11 @@ const DisplayPodcastDetails = () => {
       </button>
 
       <div className="podcast-header">
-        <img className="podcast-image" src={podcastDataDetails.image} alt={podcastDataDetails.title} />
+        <img
+          className="podcast-image"
+          src={podcastDataDetails.image}
+          alt={podcastDataDetails.title}
+        />
         <div className="podcast-details">
           <p className="podcast-label">Podcast</p>
           <h2 className="podcast-title">{podcastDataDetails.title}</h2>
@@ -71,6 +100,10 @@ const DisplayPodcastDetails = () => {
           </h4>
           <p className="podcast-meta">
             <b>Platform</b> - <b>{podcastDataDetails.seasons.length} seasons</b>
+          </p>
+          <p className="podcast-meta">
+            <b>Last Updated</b> -{" "}
+            {formatUpdatedDate(podcastDataDetails.updated)}
           </p>
         </div>
       </div>
@@ -84,51 +117,54 @@ const DisplayPodcastDetails = () => {
       </div>
       <hr />
 
-{/* Season Dropdown */}
-<div className="season-dropdown">
-  <label htmlFor="season-select">Select Season:</label>
-  <select
-    id="season-select"
-    value={selectedSeasonIndex}
-    onChange={handleSeasonChange}
-  >
-    {podcastDataDetails.seasons.map((season, index) => (
-      <option key={index} value={index}>
-        {season.title}
-      </option>
-    ))}
-  </select>
-</div>
+      <div className="season-dropdown">
+        <label htmlFor="season-select">Select Season:</label>
+        <select
+          id="season-select"
+          value={selectedSeasonIndex}
+          onChange={handleSeasonChange}
+        >
+          {podcastDataDetails.seasons.map((season, index) => (
+            <option key={index} value={index}>
+              {season.title}
+            </option>
+          ))}
+        </select>
+      </div>
 
-{/* Render selected season's episodes */}
-<div key={selectedSeasonIndex}>
-  <h3>{podcastDataDetails.seasons[selectedSeasonIndex].title}</h3>
-  <div className="episode-list">
-    {podcastDataDetails.seasons[selectedSeasonIndex].episodes.map(
-      (episode, episodeIndex) => {
-        // Get the season and episode numbers
-        const seasonNumber = String(selectedSeasonIndex + 1).padStart(2, '0');
-        const episodeNumber = String(episodeIndex + 1).padStart(2, '0');
+      <div key={selectedSeasonIndex}>
+        <h3>{podcastDataDetails.seasons[selectedSeasonIndex].title}</h3>
+        <div className="episode-list">
+          {podcastDataDetails.seasons[selectedSeasonIndex].episodes.map(
+            (episode, episodeIndex) => {
+              const seasonNumber = String(selectedSeasonIndex + 1).padStart(
+                2,
+                "0"
+              );
+              const episodeNumber = String(episodeIndex + 1).padStart(2, "0");
 
-        return (
-          <div key={episodeIndex} className="episode" onClick={() => playAudio(episode.file)}>
-            <p className="episode-title">
-              <b className="episode-index">S{seasonNumber}E{episodeNumber}</b>
-              {episode.title}
-            </p>
-            <p className="episode-file">File: {episode.file}</p> {/* This will be hidden */}
-            
-            {/* Add Button */}
-            <button 
-              className="add-episode-button" >
-              Add to favourites
-            </button>
-          </div>
-        );
-      }
-    )}
-  </div>
-</div>
+              return (
+                <div key={episodeIndex} className="episode">
+                  <p
+                    className="episode-title"
+                    onClick={() => playAudio(episode.file)}
+                  >
+                    <b className="episode-index">
+                      S{seasonNumber}E{episodeNumber}
+                    </b>
+                    {episode.title}
+                  </p>
+                  <p className="episode-file">File: {episode.file}</p>
+                  <AddToFavourites
+                    episode={episode}
+                    handleAddToFavourites={handleAddToFavourites}
+                  />
+                </div>
+              );
+            }
+          )}
+        </div>
+      </div>
 
       <div className="audio-footer">
         <audio ref={audioRef} src={podcastFileUrl} controls>
